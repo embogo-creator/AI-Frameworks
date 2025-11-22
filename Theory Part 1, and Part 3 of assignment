@@ -1,0 +1,81 @@
+Part 1: Theoretical Understanding (40%)
+
+1. Short Answer Questions
+ Explain the primary differences between TensorFlow and PyTorch. When would you choose one over the other?
+-Computation: TensorFlow uses static computation graphs (TF 1.x) but now supports eager execution; PyTorch uses dynamic computation graphs.
+-Syntax & Flexibility: PyTorch is more Pythonic and easier for research; TensorFlow is more production-oriented.
+-Deployment: TensorFlow has better deployment support (TF Serving, TF Lite, TF.js).
+-Community & Ecosystem: TensorFlow has larger ecosystem; PyTorch is popular in academia.
+
+Describe two use cases for Jupyter Notebooks in AI development.
+-Model Prototyping and Experimentation:
+Jupyter Notebooks allow interactive coding, letting developers test different algorithms, tweak hyperparameters, and visualize results quickly.
+-Data Exploration and Visualization:
+They are ideal for cleaning, analyzing, and visualizing datasets using libraries like Pandas, Matplotlib, or Seaborn, helping understand patterns before training AI models.
+
+How does spaCy enhance NLP tasks compared to basic Python string operations?
+-Advanced Linguistic Features: spaCy provides tokenization, lemmatization, part-of-speech tagging, named entity recognition, and dependency parsing, which basic string operations cannot handle reliably
+-Efficiency & Accuracy: Optimized for large text processing with high accuracy and speed, unlike manual string manipulations.
+-Consistency: Handles edge cases (punctuation, contractions, multilingual text) automatically, reducing errors common in simple string methods.
+
+2. Comparative Analysis
+Comparison of Scikit-learn and TensorFlow:
+
+-Target Applications:
+Scikit-learn: Classical machine learning (e.g., regression, classification, clustering).
+TensorFlow: Deep learning and neural networks (e.g., CNNs, RNNs, large-scale AI).
+
+-Ease of Use:
+Scikit-learn: Beginner-friendly, simple API, quick to implement models.
+TensorFlow: Steeper learning curve, more complex, requires understanding of computational graphs and tensors.
+
+-Community Support:
+Scikit-learn: Large, mature community for classical ML problems.
+TensorFlow: Massive community and ecosystem, especially for deep learning and production deployment.
+
+
+
+Part 3: Ethics & Optimization (10%
+1. Ethical Considerations
+
+Models trained on MNIST or Amazon Reviews can develop hidden biases depending on the data used.
+#Potential biases in MNIST or Amazon Reviews model
+-The dataset contains mostly American student handwriting, so the model performs poorly on digits written in different cultural or stylistic forms.
+-Some digits appear more frequently than others.
+-Certain writing styles (slang, dialects, non-native English) may be misinterpreted.
+-More positive reviews can cause the model to over-predict “positive.”
+2. How to Mitigate Bias
+-Using TensorFlow Fairness Indicators (for both MNIST & Amazon Reviews)
+-Measures model performance across subgroups (e.g., product category, handwriting style)
+
+2. Troubleshooting Challenge
+import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Flatten, Dense
+from tensorflow.keras.utils import to_categorical
+
+# Load data
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+x_train, x_test = x_train / 255.0, x_test / 255.0
+
+# Convert labels to one-hot
+y_train = to_categorical(y_train, 10)
+y_test = to_categorical(y_test, 10)
+
+# Build model
+model = Sequential([
+    Flatten(input_shape=(28, 28)),
+    Dense(128, activation='relu'),
+    Dense(10, activation='softmax')
+])
+
+# Compile model
+model.compile(
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# Train model
+model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
